@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<property name="dataSource" ref="dataSource"></property>
+	<property name="configLocation" value="classpath:/mybatis-config.xml"></property>
+	<property name="mapperLocations" value="mapper/*.xml"></property>
+</bean>
+
+<bean id="sessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory">
+</constructor-arg>
+</bean>
+
+
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+
+<!-- <bean id = "dataSource1" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+<property name="url" value="jdbc:mysql://192.168.0.17/sample_db?useSSL=false"></property>
+<property name="username" value="bit92"></property>
+<property name="password" value="bit92"></property>
+</bean> -->
+
+<bean id = "dataSource" class="oracle.jdbc.pool.OracleDataSource">
+<property name="dataSourceName" value="oracle.jdbc.driver.OracleDriver"></property>
+<property name="URL" value="jdbc:oracle:thin:@192.168.0.8:1521:XE"></property>
+<property name="user" value="leo"></property>
+<property name="password" value="leo"></property>
+
+</bean>
+
+
+<bean id="koreanMsg" class="org.zerock.service.KoreanMsg"></bean>
+<bean id="en" class="org.zerock.service.EnglishHello"></bean>
+<bean id="kr" class="org.zerock.service.KoreanHello">
+<constructor-arg ref="koreanMsg">
+
+</constructor-arg>
+</bean>
+
+<!-- <bean id="timeDAO" class="org.zerock.persistence.timeDAO">
+<property name="session" ref="sessionTemplate"></property>
+</bean> -->
+
+ <context:component-scan base-package="org.zerock.persistence"></context:component-scan>		
+		
+</beans>
+
